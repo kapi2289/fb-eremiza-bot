@@ -4,9 +4,8 @@ from time import sleep
 from eremiza import Client as ERemizaClient
 from fbchat import Client as FbClient
 from fbchat.models import ThreadType
-from pytz import timezone
 
-from ._settings import FB_GROUP_ID
+from ._settings import FB_GROUP_ID, TIMEZONE
 
 
 class Client(FbClient):
@@ -33,11 +32,12 @@ class Client(FbClient):
     def doOneListen(self, **kwargs):
         ids = list(map(lambda a: a["id"], self.alarms))
         alarms = self.eremiza_client.get_alarms(count=10)
-        now = datetime.now(timezone("Europe/Warsaw"))
+        now = datetime.now(TIMEZONE)
 
         for alarm in alarms:
-            acquired, expiration = list(map(lambda x: datetime.strptime(x, "%Y-%m-%dT%H:%M:%S.%f"),
-                                            (alarm["aquired"], alarm["expiration"])))
+            acquired, expiration = list(
+                map(lambda x: datetime.strptime(x, "%Y-%m-%dT%H:%M:%S.%f").replace(tzinfo=TIMEZONE),
+                    (alarm["aquired"], alarm["expiration"])))
             if alarm["id"] not in ids:
                 self.alarms.append(alarm)
                 if acquired <= now <= expiration:

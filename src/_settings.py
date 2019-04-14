@@ -3,6 +3,7 @@ import json
 import os
 
 from dotenv import load_dotenv
+from pytz import timezone
 
 
 def is_true(v):
@@ -25,3 +26,5 @@ if FB_USE_SESSION:
 
 EREMIZA_EMAIL = os.getenv("EREMIZA_EMAIL")
 EREMIZA_PASSWORD = os.getenv("EREMIZA_PASSWORD")
+
+TIMEZONE = timezone("Europe/Warsaw")
