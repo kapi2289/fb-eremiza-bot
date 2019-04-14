@@ -22,3 +22,6 @@ FB_GROUP_ID = os.getenv("FB_GROUP_ID")
 if FB_USE_SESSION:
     with io.open(FB_SESSION_FILE, encoding="utf-8") as f:
         FB_SESSION = json.loads(f.read())
+
+EREMIZA_EMAIL = os.getenv("EREMIZA_EMAIL")
+EREMIZA_PASSWORD = os.getenv("EREMIZA_PASSWORD")

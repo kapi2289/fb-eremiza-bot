@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "ab2e4c04b8ffd592df5ba246c4efed3e53a6af884d96be82eb82db22d81a7482"
+            "sha256": "a236bdb20e76615d24c33939bd843c0ff5f00fae77445121898b77d8b4d915eb"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -53,6 +53,14 @@
             ],
             "version": "==3.0.4"
         },
+        "eremiza-api": {
+            "hashes": [
+                "sha256:0d1d4dc69ad7877714ba300d41adc304d4c8364115c58af89e7b97858fec56db",
+                "sha256:1e30da67e6d053f8a1dd37e6075345befef269f35cb81468719ea80e77a12b87"
+            ],
+            "index": "pypi",
+            "version": "==0.1.0"
+        },
         "fbchat": {
             "hashes": [
                 "sha256:3d8033c5da38cae86e41a5626f6554804bc5a4ec127d0947d65009ac41017b91",
@@ -67,6 +75,13 @@
                 "sha256:ea8b7f6188e6fa117537c3df7da9fc686d485087abf6ac197f9c46432f7e4a3c"
             ],
             "version": "==2.8"
+        },
+        "pyjwt": {
+            "hashes": [
+                "sha256:5c6eca3c2940464d106b99ba83b00c6add741c9becaec087fb7ccdefea71350e",
+                "sha256:8d59a976fb773f3e6a39c85636357c4f0e242707394cadadd9814f5cbaa20e96"
+            ],
+            "version": "==1.7.1"
         },
         "python-dotenv": {
             "hashes": [

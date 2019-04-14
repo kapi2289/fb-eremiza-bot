@@ -8,6 +8,7 @@ verify_ssl = true
 [packages]
 fbchat = "~=1.6.4"
 python-dotenv = "*"
+eremiza-api = "*"
 
 [requires]
 python_version = "3.7"
