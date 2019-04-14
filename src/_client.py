@@ -45,5 +45,5 @@ class Client(FbClient):
         return True
 
     def alarm(self, alarm):
-        print(alarm)
-        pass
+        msg = "ALARM!\nRodzaj: {subKind}\nOpis: {description}\nDysponowano: {dispatchedBsisName}".format(**alarm)
+        self.sendMessage(msg)
