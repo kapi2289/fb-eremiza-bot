@@ -3,7 +3,7 @@ from time import sleep
 
 from eremiza import Client as ERemizaClient
 from fbchat import Client as FbClient
-from fbchat.models import ThreadType
+from fbchat.models import ThreadType, Message, Mention
 
 from ._settings import FB_GROUP_ID, TIMEZONE
 
@@ -47,4 +47,6 @@ class Client(FbClient):
 
     def alarm(self, alarm):
         msg = "ALARM!\nRodzaj: {subKind}\nOpis: {description}\nDysponowano: {dispatchedBsisName}".format(**alarm)
-        self.sendMessage(msg)
+        group = self.fetchGroupInfo(FB_GROUP_ID)[FB_GROUP_ID]
+        mentions = [Mention(uid, offset=0, length=6) for uid in group.participants]
+        self.send(Message(text=msg, mentions=mentions))
