@@ -6,6 +6,8 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
+fbchat = "~=1.6.4"
+python-dotenv = "*"
 
 [requires]
 python_version = "3.7"
