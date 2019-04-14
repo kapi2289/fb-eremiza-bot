@@ -213,3 +213,6 @@ dmypy.json
 
 # Facebook session
 /session.json
+
+# nohup output
+nohup.out
