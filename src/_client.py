@@ -32,11 +32,11 @@ class Client(FbClient):
     def doOneListen(self, **kwargs):
         ids = list(map(lambda a: a["id"], self.alarms))
         alarms = self.eremiza_client.get_alarms(count=10)
-        now = datetime.now(TIMEZONE)
+        now = datetime.now(TIMEZONE).replace(tzinfo=None)
 
         for alarm in alarms:
             acquired, expiration = list(
-                map(lambda x: datetime.strptime(x, "%Y-%m-%dT%H:%M:%S.%f").replace(tzinfo=TIMEZONE),
+                map(lambda x: datetime.strptime(x, "%Y-%m-%dT%H:%M:%S.%f"),
                     (alarm["aquired"], alarm["expiration"])))
             if alarm["id"] not in ids:
                 self.alarms.append(alarm)
