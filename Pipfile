@@ -6,9 +6,9 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-fbchat = "~=1.6.4"
+fbchat = "~=1.6.5"
 python-dotenv = "*"
-eremiza-api = "*"
+eremiza-api = "~=0.2.0"
 pytz = "*"
 
 [requires]

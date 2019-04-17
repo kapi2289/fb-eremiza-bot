@@ -1,16 +1,18 @@
 from datetime import datetime
 from time import sleep
+from typing import List
 
 from eremiza import Client as ERemizaClient
+from eremiza._alarm import Alarm
 from fbchat import Client as FbClient
-from fbchat.models import ThreadType, Message, Mention
+from fbchat.models import ThreadType, Message, Mention, LocationAttachment
 
 from ._settings import FB_GROUP_ID, TIMEZONE
 
 
 class Client(FbClient):
     eremiza_client: ERemizaClient
-    alarms: list
+    alarms: List[Alarm]
 
     def __init__(self, email, password, session_cookies=None):
         super(Client, self).__init__(email, password, session_cookies=session_cookies)
@@ -30,37 +32,37 @@ class Client(FbClient):
         self.stopListening()
 
     def doOneListen(self, **kwargs):
-        ids = list(map(lambda a: a["id"], self.alarms))
-        alarms = self.eremiza_client.get_alarms(count=10)
+        ids = list(map(lambda a: a.id, self.alarms))
+        alarms: List[Alarm] = self.eremiza_client.get_alarms(count=10)
         now = datetime.now(TIMEZONE).replace(tzinfo=None)
 
         for alarm in alarms:
-            acquired, expiration = list(
-                map(
-                    lambda x: datetime.strptime(x, "%Y-%m-%dT%H:%M:%S.%f"),
-                    (alarm["aquired"], alarm["expiration"]),
-                )
-            )
-            if alarm["id"] not in ids:
+            if alarm.id not in ids:
                 self.alarms.append(alarm)
-                if acquired <= now <= expiration:
+                if alarm.acquired <= now <= alarm.expiration:
                     self.alarm(alarm)
 
         return True
 
-    def parse_alarm(self, alarm):
-        def get(a):
-            return alarm.get(a, "Brak.")
-
-        return {
-            a: get(a)
-            for a in ["subKind", "description", "dispatchedBsisName", "locality"]
-        }
-
-    def alarm(self, alarm):
-        msg = "ALARM!\nRodzaj: {subKind}\nOpis: {description}\nDysponowano: {dispatchedBsisName}\nMiejscowość: {locality}".format(
-            **self.parse_alarm(alarm)
+    def alarm(self, alarm: Alarm):
+        msg = (
+            "ALARM!\n"
+            "Adres: {}\n"
+            "Rodzaj: {}\n"
+            "Opis: {}\n"
+            "Dysponowano: {}\n".format(
+                alarm.address,
+                alarm.sub_kind,
+                alarm.description,
+                alarm.dispatched_bsis_name,
+            )
         )
         group = self.fetchGroupInfo(FB_GROUP_ID)[FB_GROUP_ID]
         mentions = [Mention(uid, offset=0, length=6) for uid in group.participants]
-        self.send(Message(text=msg, mentions=mentions))
+        message = Message(text=msg, mentions=mentions)
+        if alarm.latitude and alarm.longitude:
+            self.sendLocation(
+                LocationAttachment(alarm.latitude, alarm.longitude), message=message
+            )
+        else:
+            self.send(message)
