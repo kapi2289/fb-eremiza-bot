@@ -36,8 +36,11 @@ class Client(FbClient):
 
         for alarm in alarms:
             acquired, expiration = list(
-                map(lambda x: datetime.strptime(x, "%Y-%m-%dT%H:%M:%S.%f"),
-                    (alarm["aquired"], alarm["expiration"])))
+                map(
+                    lambda x: datetime.strptime(x, "%Y-%m-%dT%H:%M:%S.%f"),
+                    (alarm["aquired"], alarm["expiration"]),
+                )
+            )
             if alarm["id"] not in ids:
                 self.alarms.append(alarm)
                 if acquired <= now <= expiration:
@@ -45,8 +48,19 @@ class Client(FbClient):
 
         return True
 
+    def parse_alarm(self, alarm):
+        def get(a):
+            return alarm.get(a, "Brak.")
+
+        return {
+            a: get(a)
+            for a in ["subKind", "description", "dispatchedBsisName", "locality"]
+        }
+
     def alarm(self, alarm):
-        msg = "ALARM!\nRodzaj: {subKind}\nOpis: {description}\nDysponowano: {dispatchedBsisName}".format(**alarm)
+        msg = "ALARM!\nRodzaj: {subKind}\nOpis: {description}\nDysponowano: {dispatchedBsisName}\nMiejscowość: {locality}".format(
+            **self.parse_alarm(alarm)
+        )
         group = self.fetchGroupInfo(FB_GROUP_ID)[FB_GROUP_ID]
         mentions = [Mention(uid, offset=0, length=6) for uid in group.participants]
         self.send(Message(text=msg, mentions=mentions))
