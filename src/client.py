@@ -88,13 +88,17 @@ class Client:
         if self.nexmo:
             ncco = [
                 {
-                    'action': 'talk',
-                    'voiceName': 'Jacek',
-                    'text': f"{alarm.address or ''}, {alarm.sub_kind or ''}, {alarm.description or ''}",
+                    "action": "talk",
+                    "voiceName": "Jacek",
+                    "text": f"{alarm.address or ''}, {alarm.sub_kind or ''}, {alarm.description or ''}",
                 }
             ]
-            self.nexmo.create_call({
-                'to': [{'type': 'phone', 'number': number} for number in NEXMO_NUMBERS],
-                'from': {'type': 'phone', 'number': NEXMO_APP_NUMBER},
-                'ncco': ncco,
-            })
+            self.nexmo.create_call(
+                {
+                    "to": [
+                        {"type": "phone", "number": number} for number in NEXMO_NUMBERS
+                    ],
+                    "from": {"type": "phone", "number": NEXMO_APP_NUMBER},
+                    "ncco": ncco,
+                }
+            )

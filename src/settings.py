@@ -32,6 +32,6 @@ DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 NEXMO_ACTIVE = is_true(os.getenv("NEXMO_ACTIVE"))
 NEXMO_APP_ID = os.getenv("NEXMO_APP_ID")
 NEXMO_APP_NUMBER = os.getenv("NEXMO_APP_NUMBER")
-NEXMO_NUMBERS = os.getenv("NEXMO_NUMBERS").split(',')
+NEXMO_NUMBERS = os.getenv("NEXMO_NUMBERS").split(",")
 
 TIMEZONE = timezone("Europe/Warsaw")
