@@ -9,8 +9,7 @@ from fbchat.models import ThreadType, Message, Mention, LocationAttachment
 from nexmo import Client as Nexmo
 from time import sleep
 
-from settings import NEXMO_NUMBERS, NEXMO_APP_NUMBER
-from .settings import FB_GROUP_ID, TIMEZONE
+from .settings import FB_GROUP_ID, TIMEZONE, NEXMO_NUMBERS, NEXMO_APP_NUMBER
 
 
 class Client:
