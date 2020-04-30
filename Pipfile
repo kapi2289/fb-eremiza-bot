@@ -10,6 +10,7 @@ fbchat = "~=1.9"
 python-dotenv = "*"
 eremiza-api = "~=0.2.0"
 pytz = "*"
+nexmo = "*"
 
 [requires]
 python_version = "3.7"

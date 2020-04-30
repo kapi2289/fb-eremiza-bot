@@ -216,3 +216,6 @@ dmypy.json
 
 # nohup output
 nohup.out
+
+# Nexmo private key
+private.key
