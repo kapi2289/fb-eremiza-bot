@@ -51,7 +51,7 @@ class Client:
         for alarm in alarms:
             if alarm.id not in ids:
                 self.alarms.append(alarm)
-                if alarm.acquired <= now <= alarm.expiration:
+                if alarm.acquired.replace(tzinfo=None) <= now <= alarm.expiration.replace(tzinfo=None):
                     self.alarm(alarm)
 
         return True
